@@ -2,7 +2,7 @@
 # This is a TOML document 
 
 [client]
-showErrorDetails = "none"
+showErrorDetails = false 
 
 [theme]
 primaryColor = "#F63366"
