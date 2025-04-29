@@ -12,7 +12,6 @@ uploaded_file = st.file_uploader("Upload the healthcare data file")
 df = pd.read_csv(uploaded_file)
 
 
-
 # Define features and target variable
 X = df.drop('charges', axis=1)
 y = df['charges']
