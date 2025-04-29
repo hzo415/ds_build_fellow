@@ -5,3 +5,4 @@ showErrorDetails = "none"
 primaryColor = "#F63366"
 backgroundColor = "black"
 
+disableWidgetStateDuplicationWarning = false
