@@ -8,7 +8,11 @@ from sklearn.linear_model import LinearRegression # type: ignore
 from sklearn.metrics import r2_score, mean_squared_error # type: ignore
 
 # Load the data
-df = pd.read_csv('/workspaces/ds_build_fellow/HealthData.csv')
+#df = pd.read_csv('/workspaces/ds_build_fellow/HealthData.csv')
+
+uploaded_file = st.file_uploader("Upload the healthcare data file")
+if uploaded_file is not None:
+  df = pd.read_csv(uploaded_file)
 
 # Define features and target variable
 X = df.drop('charges', axis=1)
