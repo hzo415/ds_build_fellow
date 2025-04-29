@@ -8,11 +8,10 @@ from sklearn.linear_model import LinearRegression # type: ignore
 from sklearn.metrics import r2_score, mean_squared_error # type: ignore
 
 # Load the data
+st.write("Ignore Errors Below will be removed After file is inserted")
 uploaded_file = st.file_uploader("Upload the healthcare data file")
 df = pd.read_csv(uploaded_file)
 
-
-st.write("Ignore Errors Below will be removed After file is inserted")
 
 # Programmatically set the config to hide error details
 st.set_option('client.showErrorDetails', False)
