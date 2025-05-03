@@ -7,16 +7,11 @@ from sklearn.compose import ColumnTransformer # type: ignore
 from sklearn.linear_model import LinearRegression # type: ignore
 from sklearn.metrics import r2_score, mean_squared_error # type: ignore
 
-# Load the data
-#st.write("Ignore Errors Below will be removed After file is inserted")
-#uploaded_file = st.file_uploader("Upload the healthcare data file")
-#df = pd.read_csv(uploaded_file)
+#make the use of the entire page 
+st.set_page_config(layout="wide") 
 
+# Load the data 
 df = pd.read_csv('https://raw.githubusercontent.com/hzo415/ds_build_fellow/refs/heads/main/HealthData.csv')
-
-
-# Programmatically set the config to hide error details
-st.set_option('client.showErrorDetails', False)
 
 # Define features and target variable
 X = df.drop('charges', axis=1)
@@ -39,14 +34,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 X_train_processed = preprocessor.fit_transform(X_train)
 X_test_processed = preprocessor.transform(X_test)
 
-# Create and train model
+# Create and train model using linear regression
 model = LinearRegression()
 model.fit(X_train_processed, y_train)
 
 # Make predictions on test set
 y_pred = model.predict(X_test_processed)
 
-# Evaluate performance using R² and RMSE
+# Evaluate performance using R²
 r2 = r2_score(y_test, y_pred)
 
 
@@ -56,20 +51,19 @@ st.markdown("Welcome to the Insurance Charges Predictor!")
 st.write("Enter the details below to predict insurance charges:")
 
 
-# Input fields with error messages Input fields
+# Input fields
 max_age = 100
 min_age = 18
-age = st.slider("Age", min_value=min_age, max_value=max_age, value=30, help="Age should be between 18 and 100.")
 
-sex = st.selectbox("Sex", options=['male','female'], help="Please select a valid sex.")
-
-bmi = st.number_input("BMI", min_value=10.0, max_value=60.0, value=25.0, step=0.1, help="BMI should be between 10 and 60.")
-
-children = st.number_input("Number of Children", min_value=0, max_value=5, value=0, help="Number of children should be between 0 and 5.")
-
-smoker = st.selectbox("Smoker", options=['yes','no'], help="Please select a valid smoker status.")
-
-region = st.selectbox("Region", options=['northeast','northwest', 'southeast', 'southwest'], help="Please select a valid region.")
+left, right = st.columns(2)   
+with left:     
+    smoker = st.radio('Are you a smoker or not?', options=['yes', 'no'], horizontal=True)
+    age = st.slider("What is your age?", min_value=min_age, max_value=max_age, value=30, help="Age should be between 18 and 100.")
+    sex = st.radio('What is your gender?', options=['male', 'female'], horizontal=True)
+with right:     
+    bmi = st.number_input("Please enter your BMI", min_value=10.0, max_value=60.0, value=25.0, step=0.1, help="BMI should be between 10 and 60.")
+    children = st.number_input("Number of Children", min_value=0, max_value=5, value=0, help="Number of children should be between 0 and 5.")
+    region = st.selectbox("Which Region do you live in?", options=['northeast','northwest', 'southeast', 'southwest'], help="Please select a valid region.")
 
 # Button to predict charges
 if st.button("Predict Charges"):
@@ -103,7 +97,6 @@ if st.button("Predict Charges"):
         ax.set_ylabel('Predicted Charges')
         ax.set_title('Actual vs Predicted Charges')
         st.pyplot(fig)
-
     except Exception as e:
         st.error(str(e))
 
